@@ -5,19 +5,20 @@ Used https://github.com/SinghDigamber/angularfirebase-authentication as starter 
 
 Create env variables in src/evironments/environment.ts as follows
 
-`environment = {
-  production: false,
-  firebase: {
-    apiKey: "",
-    authDomain: "",
-    databaseURL: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: ""
-  }
+```json
+export const environment = {
+    production: false,
+    firebase: {
+        apiKey: "",
+        authDomain: "",
+        databaseURL: "",
+        projectId: "",
+        storageBucket: "",
+        messagingSenderId: "",
+        appId: ""
+    }
 };
-'
+```
 
 
 ## Installation Process

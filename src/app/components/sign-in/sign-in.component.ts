@@ -10,7 +10,7 @@ import { AuthService } from "../../shared/services/auth.service";
 export class SignInComponent implements OnInit {
 
   constructor(
-    public authService: AuthService
+    public auth: AuthService
   ) { }
 
   ngOnInit() { }

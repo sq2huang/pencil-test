@@ -11,17 +11,15 @@ import { AngularFirestore } from '@angular/fire/firestore';
   
 })
 
-
 export class DashboardComponent implements OnInit {
   protected email: string
-  public prevDoc: string
-  public reload = false;
+  public editor: any;
   constructor(
     public auth: AuthService,
     public router: Router,
     public ngZone: NgZone,
     protected firestore: AngularFirestore,
-  ) {  }
+  ) { }
 
   ngOnInit() { }
   
@@ -29,9 +27,8 @@ export class DashboardComponent implements OnInit {
     this.firestore.collection('pencil-assessment').doc(this.email).ref.get()
       .then(doc => {
         if (doc.exists) {
-          this.prevDoc = doc.data().value
+          this.editor.setContent(doc.data().value, 0)
         }
-        this.reload = true
       })
       .catch(err => {
         console.log('Error getting document', err);
@@ -40,13 +37,12 @@ export class DashboardComponent implements OnInit {
   }
 
   pushFirebase() {
-    var newText = document.getElementById("input-field").innerHTML
-    var email = this.auth.userData.email;
-    let entry = this.firestore.collection('pencil-assessment').doc(email).ref.get()
+    let newText = this.editor.getContent(0)
+    this.firestore.collection('pencil-assessment').doc(this.email).ref.get()
       .then(doc => {
         this.firestore
           .collection('pencil-assessment')
-          .doc(email)
+          .doc(this.email)
           .set({ value: newText });
       })
   }
@@ -56,7 +52,7 @@ export class DashboardComponent implements OnInit {
     this.email = this.auth.userData.email;
     this.getFirebase()
     const edit= this.media.nativeElement;
-    const editor = new MediumEditor(edit);
-    editor.subscribe('editableInput', this.pushFirebase.bind(this));
+    this.editor = new MediumEditor(edit);
+    this.editor.subscribe('editableInput', this.pushFirebase.bind(this));
   }
 }
